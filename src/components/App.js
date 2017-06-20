@@ -6,15 +6,15 @@ import './App.css';
 
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: '',
-      userName: '',
-      userImg: '',
-      userId: '',
-    };
-  }
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     value: '',
+  //     userName: '',
+  //     userImg: '',
+  //     userId: '',
+  //   };
+  // }
 
   fetchData = (login) => {
     fetch(`https://api.github.com/users/${login}`)

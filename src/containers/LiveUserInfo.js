@@ -7,7 +7,12 @@ import UserInfo from 'components/UserInfo';
 
 
 const mapStateToProps = (state) => {
-  return {}
+  return {
+    value: state.value,
+    userId: state.userId,
+    userName: state.userName,
+    userImg: state.userImg,
+  }
 };
 
 const mapDispatchToProps = (dispatch) => {
