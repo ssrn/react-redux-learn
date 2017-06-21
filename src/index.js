@@ -1,15 +1,16 @@
+//контейнер который рендерит UserForm, основной компонент приложения
+
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-import getDateApp from './reducers';
-import App from './components/App';
+import configureStore from './store/configureStore';
+import UserForm from './containers/UserForm/UserForm';
 
-let store = createStore(getDateApp);
+const store = configureStore();
 
 render(
   <Provider store={store}>
-    <App />
+    <UserForm />
   </Provider>,
   document.getElementById('root')
 );
