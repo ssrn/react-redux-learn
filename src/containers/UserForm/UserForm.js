@@ -1,12 +1,11 @@
 /**
- * Created by bookason on 20/06/17.
+ * Created by bookason on 21/06/17.
  */
 
-//контейнер который рендерит инпут, кнопку, юзера и подключается к store через connect
-
 import React from 'react';
-import { connect } from 'react-redux'
-import { showUser, lookupError, userNotFound } from '../UserForm/actions'
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { showUser, lookupError, userNotFound } from '../UserForm/actions';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import UserInfo from '../../components/UserInfo';
@@ -28,21 +27,34 @@ let UserForm = ({ dispatch }) => {
       });
   };
 
-    return (
-      <div className="App">
-        {/*<Lookup onSubmit={(login) => this.fetchData(login)}/>*/}
-        <form onSubmit={() => fetchData(this.props.value)}>
-          <Input />
-          <Button />
-        </form>
-        <UserInfo />
-      </div>
-    );
-}
+  return (
+    <div className="App">
+      <form onSubmit={() => fetchData(this.props.login)}>
+        <Input
+          inputValue={this.props.login}
+          onChange={this.handleInputChange}
+        />
+        <Button text="Submit" />
+      </form>
+      <UserInfo
+        userName={this.props.userName}
+        userImg={this.props.userImg}
+      />
+    </div>
+  );
+};
+
+
+UserForm.propTypes = {
+  login: PropTypes.string,
+  userName: PropTypes.string,
+  userImg: PropTypes.string,
+};
+
 
 const mapStateToProps = (state) => {
   return {
-    value: state.value,
+    login: state.login,
     found: state.found,
     userName: state.userName,
     userImg: state.userImg,

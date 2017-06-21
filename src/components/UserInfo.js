@@ -4,7 +4,7 @@
 
 //рендерит аватар и имя, если нету сообщение об отсутсвии
 
-import React, { Component  } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 class UserInfo extends Component {
@@ -20,7 +20,7 @@ class UserInfo extends Component {
         <div className="user">
           <div className="user-name">{ this.props.userName ? this.props.userName : "Data empty" }</div>
           <div className="user-image">{ this.props.userImg ? (
-            <img src={ this.props.userImg }  alt={ this.props.userName }/>
+            <img src={ this.props.userImg }  alt={ this.props.userName}/>
           ) : (
             "Data empty"
           ) } </div>
@@ -32,24 +32,11 @@ class UserInfo extends Component {
   render() {
     return (
       <div className="user-info">
-        { this.renderUserInfo() }
+        {this.renderUserInfo()}
       </div>
     )
   }
 }
-
-// const UserInfo = ({userName, userImg}) => (
-//   <div className="user-info">
-//     <div className="user">
-//       <div className="user-name">{ userName ? userName : "Data empty" }</div>
-//       <div className="user-image">{ userImg ? (
-//         <img src={ userImg }/>
-//       ) : (
-//         "Data empty"
-//       ) } </div>
-//     </div>
-//   </div>
-// );
 
 UserInfo.propTypes = {
   found: PropTypes.bool.isRequired,
