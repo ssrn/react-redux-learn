@@ -9,8 +9,6 @@ import PropTypes from 'prop-types';
 
 class UserInfo extends Component {
   renderUserInfo() {
-    console.log("RENDER");
-    console.dir(this.props);
     if (!this.props.found) {
       return (
         <div className="user">
