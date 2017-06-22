@@ -9,6 +9,8 @@ import PropTypes from 'prop-types';
 
 class UserInfo extends Component {
   renderUserInfo() {
+    console.log("RENDER");
+    console.dir(this.props);
     if (!this.props.found) {
       return (
         <div className="user">
@@ -39,9 +41,9 @@ class UserInfo extends Component {
 }
 
 UserInfo.propTypes = {
-  found: PropTypes.bool.isRequired,
-  userName: PropTypes.string.isRequired,
-  userImg: PropTypes.string.isRequired,
+  found: PropTypes.bool,
+  userName: PropTypes.string,
+  userImg: PropTypes.string,
 };
 
 export default UserInfo;

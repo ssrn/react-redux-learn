@@ -2,17 +2,9 @@
  * Created by bookason on 20/06/17.
  */
 
-
 import * as ActionTypes from './constants';
 
-export const submitValue = (value) => {
-  return {
-    type: ActionTypes.SUBMIT_VALUE,
-    value,
-  }
-};
-
-export const showUser = (userName, userImg) => {
+export const showUserAction = (userName, userImg) => {
   return {
     type: ActionTypes.SHOW_USER,
     userName,
@@ -20,17 +12,10 @@ export const showUser = (userName, userImg) => {
   }
 };
 
-export const userNotFound = () => {
+export const userNotFoundAction = () => {
   return {
     type: ActionTypes.USER_NOT_FOUND,
     text: 'User not found',
-  }
-};
-
-export const lookupError = () => {
-  return {
-    type: ActionTypes.ERROR,
-    text: 'Error',
   }
 };
 

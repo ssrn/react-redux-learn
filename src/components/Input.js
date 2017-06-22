@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 class Input extends Component {
   render() {
     const { inputValue, onChange } = this.props;
-    return <input type="text" value={inputValue} onChange={onChange} />;
+    return <input type="text" ref="text" value={inputValue} onChange={() => onChange(this.refs.text.value)} />;
   }
 }
 
