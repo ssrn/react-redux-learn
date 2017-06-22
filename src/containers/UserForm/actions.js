@@ -4,20 +4,18 @@
 
 import * as ActionTypes from './constants';
 
-export const showUserAction = (userName, userImg) => {
+export const showUserAction = (userId, userName, userImg) => {
   return {
     type: ActionTypes.SHOW_USER,
+    userId,
     userName,
     userImg,
   }
 };
 
-export const userNotFoundAction = () => {
+export const userNotFoundAction = (userId) => {
   return {
     type: ActionTypes.USER_NOT_FOUND,
-    text: 'User not found',
+    userId
   }
 };
-
-/* action creators (const changeInput = () => { return { ... } })
- */

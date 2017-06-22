@@ -9,6 +9,7 @@ import { showUserAction, userNotFoundAction } from '../UserForm/actions';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import UserInfo from '../../components/UserInfo';
+import './UserForm.css';
 
 class UserForm extends Component {
 
@@ -21,7 +22,7 @@ class UserForm extends Component {
         throw new Error("Not found");
       })
       .then((user) => {
-        user.id ? this.props.showUser(user.name, user.avatar_url) : this.props.userNotFound()
+        user.id ? this.props.showUser(user.id, user.name, user.avatar_url) : this.props.userNotFound()
       })
       .catch((error) => {
         this.props.userNotFound();
@@ -33,19 +34,17 @@ class UserForm extends Component {
   render() {
     return (
       <div className="App">
-        <form onSubmit={(e) => { e.preventDefault(); return this.fetchData(this.inputValue) }}>
+        <form className="search" onSubmit={(e) => { e.preventDefault(); return this.fetchData(this.inputValue) }}>
           <Input
             inputValue={this.props.login}
-            onChange={(value) => {this.inputValue = value; }}
+            onChange={(value) => { this.inputValue = value; }}
           />
-          <Button
-            text="Submit"
-          />
+          <Button text="Submit" />
         </form>
         <UserInfo
+          userId={this.props.userId}
           userName={this.props.userName}
           userImg={this.props.userImg}
-          found={this.props.found}
         />
       </div>
     );
@@ -54,15 +53,15 @@ class UserForm extends Component {
 
 UserForm.propTypes = {
   login: PropTypes.string,
+  userId: PropTypes.string,
   userName: PropTypes.string,
   userImg: PropTypes.string,
-  found: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => {
   return {
     login: state.login,
-    found: state.found,
+    userId: state.userId,
     userName: state.userName,
     userImg: state.userImg,
   }
@@ -70,8 +69,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    showUser: (userName, userImg) => {
-      return dispatch(showUserAction(userName, userImg))
+    showUser: (userId, userName, userImg) => {
+      return dispatch(showUserAction(userId, userName, userImg))
     },
     userNotFound: () => dispatch(userNotFoundAction()),
   };

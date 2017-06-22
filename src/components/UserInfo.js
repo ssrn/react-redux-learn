@@ -9,7 +9,10 @@ import PropTypes from 'prop-types';
 
 class UserInfo extends Component {
   renderUserInfo() {
-    if (!this.props.found) {
+    if (this.props.userId === '') {
+      return '';
+    }
+    if (this.props.userId === 'Error') {
       return (
         <div className="user">
           Not found
@@ -20,7 +23,7 @@ class UserInfo extends Component {
         <div className="user">
           <div className="user-name">{ this.props.userName ? this.props.userName : "Data empty" }</div>
           <div className="user-image">{ this.props.userImg ? (
-            <img src={ this.props.userImg }  alt={ this.props.userName}/>
+            <img src={ this.props.userImg }  alt={ this.props.userName} />
           ) : (
             "Data empty"
           ) } </div>
@@ -30,6 +33,9 @@ class UserInfo extends Component {
   }
 
   render() {
+    console.log(" UserId " + this.props.userId);
+    console.log(" UserName " + this.props.userName);
+    console.log(" UserImg " +  this.props.userImg);
     return (
       <div className="user-info">
         {this.renderUserInfo()}
@@ -39,7 +45,7 @@ class UserInfo extends Component {
 }
 
 UserInfo.propTypes = {
-  found: PropTypes.bool,
+  userId: PropTypes.string,
   userName: PropTypes.string,
   userImg: PropTypes.string,
 };

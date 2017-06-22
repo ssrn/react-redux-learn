@@ -1,0 +1,17 @@
+.App {
+  text-align: center;
+}
+
+.search {
+  margin: 20px 0;
+}
+
+[type='text'],
+[type='submit'] {
+  padding: 6px 12px;
+  margin: 0 5px;
+}
+
+.user-name {
+  margin-bottom: 10px;
+}
