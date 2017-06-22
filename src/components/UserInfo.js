@@ -5,7 +5,7 @@
 //рендерит аватар и имя, если нету сообщение об отсутсвии
 
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
 class UserInfo extends Component {
   renderUserInfo() {
@@ -33,9 +33,6 @@ class UserInfo extends Component {
   }
 
   render() {
-    console.log(" UserId " + this.props.userId);
-    console.log(" UserName " + this.props.userName);
-    console.log(" UserImg " +  this.props.userImg);
     return (
       <div className="user-info">
         {this.renderUserInfo()}
@@ -44,11 +41,11 @@ class UserInfo extends Component {
   }
 }
 
-UserInfo.propTypes = {
-  userId: PropTypes.string,
-  userName: PropTypes.string,
-  userImg: PropTypes.string,
-};
+// UserInfo.propTypes = {
+//   userId: PropTypes.string,
+//   userName: PropTypes.string,
+//   userImg: PropTypes.string,
+// };
 
 export default UserInfo;
 

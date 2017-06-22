@@ -3,7 +3,7 @@
  */
 
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { showUserAction, userNotFoundAction } from '../UserForm/actions';
 import Input from '../../components/Input';
@@ -51,12 +51,12 @@ class UserForm extends Component {
   }
 }
 
-UserForm.propTypes = {
-  login: PropTypes.string,
-  userId: PropTypes.string,
-  userName: PropTypes.string,
-  userImg: PropTypes.string,
-};
+// UserForm.propTypes = {
+//   login: PropTypes.string,
+//   userId: PropTypes.string,
+//   userName: PropTypes.string,
+//   userImg: PropTypes.string,
+// };
 
 const mapStateToProps = (state) => {
   return {
