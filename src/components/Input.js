@@ -5,18 +5,16 @@
 //получает через props функцию onChange, value и placeholder
 
 import React, {Component} from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
-class Input extends Component {
+export default class Input extends Component {
   render() {
-    const { inputValue, onChange } = this.props;
-    return <input type="text" ref="text" value={inputValue} onChange={() => onChange(this.refs.text.value)}/>;
+    const { isValid, onChange } = this.props;
+    return <input type="text" ref="text" onChange={() => onChange(this.refs.text.value)} className={isValid ? "validated" : "error"} />;
   }
 }
 
-// Input.propTypes = {
-//   inputValue: PropTypes.string,
-//   onChange: PropTypes.func.isRequired,
-// };
-
-export default Input;
+Input.propTypes = {
+  isValid: PropTypes.bool,
+  onChange: PropTypes.func.isRequired,
+};

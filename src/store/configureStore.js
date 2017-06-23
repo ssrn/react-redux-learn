@@ -9,7 +9,8 @@ import rootReducer from './reducer';
 
 const configureStore = preloadedState => createStore(
   rootReducer,
-  preloadedState,
+  // preloadedState,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
 );
 
 export default configureStore;

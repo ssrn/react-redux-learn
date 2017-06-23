@@ -3,15 +3,33 @@
  */
 
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { showUserAction, userNotFoundAction } from '../UserForm/actions';
+import { getInputValue, fetchUserSuccess, fetchUserFail } from '../UserForm/actions';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import UserInfo from '../../components/UserInfo';
 import './UserForm.css';
 
 class UserForm extends Component {
+  // Тоже самое, что и на 39 строке, но в другом стиле
+  // Разницы по сути никакой, но в ивентифае используется такой стиль, поэтому к нему лучше привыкать
+  // constructor(props) {
+  //   super(props);
+  //
+  //   this.value = '';
+  // }
+
+  constructor(props) {
+    super(props);
+    this.value = '';
+  }
+
+  handleInputChange = (value) => {
+    this.value = value;
+    this.props.getInputValue(value);
+    console.log('isValid: ' + this.value.match(/^[a-z0-9-]+$/));
+  };
 
   fetchData = (login) => {
     fetch(`https://api.github.com/users/${login}`)
@@ -29,17 +47,26 @@ class UserForm extends Component {
       });
   };
 
-  inputValue = '';
+  // Инициализация статических переменных класса должны быть в начале класса или после конструктора, если он есть
+  // value лучше хранить в стейте компонента, иначе может случится ситуация когда value меняется, но компонент не перерендеривается
+  // value = '';
 
   render() {
     return (
       <div className="App">
-        <form className="search" onSubmit={(e) => { e.preventDefault(); return this.fetchData(this.inputValue) }}>
+        <form className="search" onSubmit={(e) => { e.preventDefault(); return this.fetchData(this.value) }}>
           <Input
-            inputValue={this.props.login}
-            onChange={(value) => { this.inputValue = value; }}
+            // лучше назвать просто value, из названия компонента понятно что value для инпута
+            // value={this.props.login}
+            // Такие функции onChange={(value) => { this.value = value; }} надо описывать как методы класса, иначе при каждом рендере компонента
+            // создается новая стрелочная функция и реакт считает, что пропсы изменились и надо перерендерить компонент
+            onChange={this.handleInputChange}
+            isValid={this.value.match(/^[a-z0-9-]+$/)}
           />
-          <Button text="Submit" />
+          <Button
+            text="Submit"
+            disabled={!this.value || this.value === '' || !this.value.match(/^[a-z0-9-]+$/)}
+          />
         </form>
         <UserInfo
           userId={this.props.userId}
@@ -51,15 +78,17 @@ class UserForm extends Component {
   }
 }
 
-// UserForm.propTypes = {
-//   login: PropTypes.string,
-//   userId: PropTypes.string,
-//   userName: PropTypes.string,
-//   userImg: PropTypes.string,
-// };
+// Всегда нужно определять propTypes, если вдруг в компонент будут переданы невалидные данные, реакт кинет ворнинг в консоль
+UserForm.propTypes = {
+  login: PropTypes.string,
+  userId: PropTypes.string,
+  userName: PropTypes.string,
+  userImg: PropTypes.string,
+};
 
 const mapStateToProps = (state) => {
   return {
+    value: state.value,
     login: state.login,
     userId: state.userId,
     userName: state.userName,
@@ -69,10 +98,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    getInputValue: (value) => dispatch(getInputValue(value)),
     showUser: (userId, userName, userImg) => {
-      return dispatch(showUserAction(userId, userName, userImg))
+      return dispatch(fetchUserSuccess(userId, userName, userImg))
     },
-    userNotFound: () => dispatch(userNotFoundAction()),
+    userNotFound: () => dispatch(fetchUserFail()),
   };
 };
 

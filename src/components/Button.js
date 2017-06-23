@@ -5,17 +5,15 @@
 // получает через props функцию onClick и текст кнопки
 
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
-class Button extends Component {
+export default class Button extends Component {
   render() {
-    return <input className="btn" type="submit" value={this.props.text} />;
+    return <input className="btn" type="submit" value={this.props.text} disabled={this.props.disabled} />;
   }
 }
 
-// Button.propTypes = {
-//   text: PropTypes.string.isRequired,
-// };
-
-
-export default Button;
+Button.propTypes = {
+  text: PropTypes.string.isRequired,
+  disabled: PropTypes.bool,
+};
