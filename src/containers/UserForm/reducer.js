@@ -17,7 +17,7 @@ export default (state = initialState, action) => {
     case ActionTypes.GET_INPUT_VALUE:
       return {
         ...state,
-        value: action.value,
+        value: action.payload,
       };
     case ActionTypes.FETCH_USER_SUCCESS:
       // Все правильно с точки зрения логики кода, но всегда надо мерджить новые данные со старым стейтом
@@ -30,9 +30,9 @@ export default (state = initialState, action) => {
       // };
       return {
         ...state,
-        userId: action.userId,
-        userName: action.userName,
-        userImg: action.userImg,
+        userId: action.payload.userId,
+        userName: action.payload.userName,
+        userImg: action.payload.userImg,
       };
     case ActionTypes.FETCH_USER_FAIL:
       return {

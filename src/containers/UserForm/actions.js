@@ -21,7 +21,7 @@ import * as ActionTypes from './constants';
 export const getInputValue = (value) => {
   return {
     type: ActionTypes.GET_INPUT_VALUE,
-    value,
+    payload: value,
   }
 };
 
@@ -29,9 +29,7 @@ export const getInputValue = (value) => {
 export const fetchUserSuccess = (userId, userName, userImg) => {
   return {
     type: ActionTypes.FETCH_USER_SUCCESS,
-    userId,
-    userName,
-    userImg,
+    payload: {userId, userName, userImg},
   }
 };
 
@@ -39,6 +37,6 @@ export const fetchUserSuccess = (userId, userName, userImg) => {
 export const fetchUserFail = (userId) => {
   return {
     type: ActionTypes.FETCH_USER_FAIL,
-    userId
+    payload: userId
   }
 };
