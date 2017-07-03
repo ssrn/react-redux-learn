@@ -29,14 +29,17 @@ export const getInputValue = (value) => {
 export const fetchUserSuccess = (userId, userName, userImg) => {
   return {
     type: ActionTypes.FETCH_USER_SUCCESS,
-    payload: {userId, userName, userImg},
+    payload: { userId, userName, userImg },
   }
 };
 
-// Еще из названия не понятно, что описывает action, логичнее было бы назвать fetchUserFail или fetchUserError
-export const fetchUserFail = (userId) => {
+// Так как этот action creator создает экшн обозначающий ошибку при загрузке юзера
+// то аргументом должен быть текст или код ошибки
+// payload в таком случае будет объектом ошибки
+export const fetchUserFail = (errorMsg) => {
   return {
     type: ActionTypes.FETCH_USER_FAIL,
-    payload: userId
+    payload: new Error(errorMsg),
+    error: true,
   }
 };

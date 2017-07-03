@@ -12,16 +12,13 @@ import UserInfo from '../../components/UserInfo';
 import './UserForm.css';
 
 class UserForm extends Component {
-  // Тоже самое, что и на 39 строке, но в другом стиле
-  // Разницы по сути никакой, но в ивентифае используется такой стиль, поэтому к нему лучше привыкать
-  // constructor(props) {
-  //   super(props);
-  //
-  //   this.value = '';
-  // }
-
   constructor(props) {
     super(props);
+
+    // Хранение value надо перенести в state
+
+    // Так же надо добавить в стейт булевое значение touched - менялся ли уже инпут или нет
+    // Чтобы при открытии страницы инпут не был инвалидным и не пугал юзера
     this.value = '';
   }
 
@@ -40,26 +37,31 @@ class UserForm extends Component {
         throw new Error("Not found");
       })
       .then((user) => {
-        user.id ? this.props.showUser(user.id, user.name, user.avatar_url) : this.props.userNotFound()
+        console.log(user);
+        // Удаляем ненужную проверку, так как если респонс со статусом 200, значит все ок
+        // user.id ? this.props.showUser(user.id, user.name, user.avatar_url) : this.props.userNotFound()
+
+        this.props.showUser(user.id, user.name, user.avatar_url);
       })
       .catch((error) => {
-        this.props.userNotFound();
+        // Передаем месагу ошибки в action creator
+        this.props.userNotFound(error.message);
       });
   };
 
-  // Инициализация статических переменных класса должны быть в начале класса или после конструктора, если он есть
-  // value лучше хранить в стейте компонента, иначе может случится ситуация когда value меняется, но компонент не перерендеривается
-  // value = '';
-
   render() {
+    // onSubmit - сделать методом компонента
+
+    // isValid у инпута будет зависеть еще и от значения touched
+    // isValid можно хранить в стейте компонента, тогда не придется каждый раз вычислять,
+    // а только в момент когда инпут изменился
+
+    // Дублируется валидирование value - в Input и в Button, надо вынести в отдельную функцию, лучше за пределы компонента,
+    // Поскольку проверка довольно типовая и может понадобится еще где-то
     return (
       <div className="App">
         <form className="search" onSubmit={(e) => { e.preventDefault(); return this.fetchData(this.value) }}>
           <Input
-            // лучше назвать просто value, из названия компонента понятно что value для инпута
-            // value={this.props.login}
-            // Такие функции onChange={(value) => { this.value = value; }} надо описывать как методы класса, иначе при каждом рендере компонента
-            // создается новая стрелочная функция и реакт считает, что пропсы изменились и надо перерендерить компонент
             onChange={this.handleInputChange}
             isValid={this.value.match(/^[a-z0-9-]+$/)}
           />
@@ -78,13 +80,15 @@ class UserForm extends Component {
   }
 }
 
-// Всегда нужно определять propTypes, если вдруг в компонент будут переданы невалидные данные, реакт кинет ворнинг в консоль
+// userId делаем числом, см. UserInfo.js
 UserForm.propTypes = {
   login: PropTypes.string,
-  userId: PropTypes.string,
+  userId: PropTypes.number,
   userName: PropTypes.string,
   userImg: PropTypes.string,
 };
+
+// Нужны defaultProps как в случае с Button.js
 
 const mapStateToProps = (state) => {
   return {
@@ -102,7 +106,7 @@ const mapDispatchToProps = (dispatch) => {
     showUser: (userId, userName, userImg) => {
       return dispatch(fetchUserSuccess(userId, userName, userImg))
     },
-    userNotFound: () => dispatch(fetchUserFail()),
+    userNotFound: (error) => dispatch(fetchUserFail(error)),
   };
 };
 
