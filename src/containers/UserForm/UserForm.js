@@ -3,8 +3,8 @@
  */
 
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { getInputValue, fetchUserSuccess, fetchUserFail } from '../UserForm/actions';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
@@ -12,20 +12,16 @@ import UserInfo from '../../components/UserInfo';
 import './UserForm.css';
 
 class UserForm extends Component {
-  constructor(props) {
-    super(props);
 
-    // Хранение value надо перенести в state
+  checkInputIsValid = () => (this.props.value.match(/^[a-z0-9-]+$/) != null);
 
-    // Так же надо добавить в стейт булевое значение touched - менялся ли уже инпут или нет
-    // Чтобы при открытии страницы инпут не был инвалидным и не пугал юзера
-    this.value = '';
-  }
+  handleInputChange = (event) => {
+    this.props.getInputValue(event.target.value)
+  };
 
-  handleInputChange = (value) => {
-    this.value = value;
-    this.props.getInputValue(value);
-    console.log('isValid: ' + this.value.match(/^[a-z0-9-]+$/));
+  handleOnSubmit = (e) => {
+    e.preventDefault();
+    return this.fetchData(this.props.value)
   };
 
   fetchData = (login) => {
@@ -37,38 +33,23 @@ class UserForm extends Component {
         throw new Error("Not found");
       })
       .then((user) => {
-        console.log(user);
-        // Удаляем ненужную проверку, так как если респонс со статусом 200, значит все ок
-        // user.id ? this.props.showUser(user.id, user.name, user.avatar_url) : this.props.userNotFound()
-
         this.props.showUser(user.id, user.name, user.avatar_url);
       })
       .catch((error) => {
-        // Передаем месагу ошибки в action creator
         this.props.userNotFound(error.message);
       });
   };
 
   render() {
-    // onSubmit - сделать методом компонента
-
-    // isValid у инпута будет зависеть еще и от значения touched
-    // isValid можно хранить в стейте компонента, тогда не придется каждый раз вычислять,
-    // а только в момент когда инпут изменился
-
-    // Дублируется валидирование value - в Input и в Button, надо вынести в отдельную функцию, лучше за пределы компонента,
-    // Поскольку проверка довольно типовая и может понадобится еще где-то
     return (
       <div className="App">
-        <form className="search" onSubmit={(e) => { e.preventDefault(); return this.fetchData(this.value) }}>
+        <form className="search" onSubmit={this.handleOnSubmit}>
           <Input
+            value={this.props.value}
             onChange={this.handleInputChange}
-            isValid={this.value.match(/^[a-z0-9-]+$/)}
+            isValid={!this.props.touched || this.checkInputIsValid()}
           />
-          <Button
-            text="Submit"
-            disabled={!this.value || this.value === '' || !this.value.match(/^[a-z0-9-]+$/)}
-          />
+          <Button disabled={!this.checkInputIsValid()} />
         </form>
         <UserInfo
           userId={this.props.userId}
@@ -80,20 +61,29 @@ class UserForm extends Component {
   }
 }
 
-// userId делаем числом, см. UserInfo.js
+
 UserForm.propTypes = {
-  login: PropTypes.string,
+  value: PropTypes.string,
+  touched: PropTypes.bool,
   userId: PropTypes.number,
   userName: PropTypes.string,
   userImg: PropTypes.string,
+  error: PropTypes.bool,
 };
 
-// Нужны defaultProps как в случае с Button.js
+UserForm.defaultProps = {
+  value: null,
+  touched: false,
+  userId: null,
+  userName: null,
+  userImg: null,
+  error: false,
+};
 
 const mapStateToProps = (state) => {
   return {
     value: state.value,
-    login: state.login,
+    touched: state.touched,
     userId: state.userId,
     userName: state.userName,
     userImg: state.userImg,
@@ -102,7 +92,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getInputValue: (value) => dispatch(getInputValue(value)),
+    getInputValue: (value, touched) => dispatch(getInputValue(value, touched)),
     showUser: (userId, userName, userImg) => {
       return dispatch(fetchUserSuccess(userId, userName, userImg))
     },

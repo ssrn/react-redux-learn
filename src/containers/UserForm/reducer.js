@@ -4,9 +4,9 @@
 
 import * as ActionTypes from '../UserForm/constants';
 
-// Добавляем состояние ошибки - fetchError
-// Добавляем недостающие поля в начальное состояние - userName, userImg
 const initialState = {
+  value: '',
+  touched: false,
   userId: null,
   userName: null,
   userImg: null,
@@ -18,7 +18,8 @@ export default (state = initialState, action) => {
     case ActionTypes.GET_INPUT_VALUE:
       return {
         ...state,
-        value: action.payload,
+        value: action.payload.value,
+        touched: true,
       };
     case ActionTypes.FETCH_USER_SUCCESS:
       return {
