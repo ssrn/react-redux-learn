@@ -37,6 +37,6 @@ export const fetchUserSuccess = (userId, userName, userImg) => {
 export const fetchUserFail = (userId) => {
   return {
     type: ActionTypes.FETCH_USER_FAIL,
-    payload: userId
+    payload: userId,
   }
 };
