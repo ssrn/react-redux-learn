@@ -10,7 +10,6 @@ import PropTypes from 'prop-types';
 export default class Input extends Component {
   render() {
     const { value, onChange, isValid } = this.props;
-    console.log('isValid: ' + isValid);
     return (
       <input
         type="text"

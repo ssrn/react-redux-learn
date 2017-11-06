@@ -7,13 +7,14 @@ import PropTypes from 'prop-types';
 
 export default class Button extends Component {
   render() {
-    console.log('disabled: ' + this.props.disabled);
     return (
       <button
         className="btn"
         type="submit"
         disabled={this.props.disabled}
-      >Submit</button>
+      >
+        Submit
+      </button>
     );
   }
 }
