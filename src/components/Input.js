@@ -1,7 +1,3 @@
-/**
- * Created by bookason on 20/06/17.
- */
-
 //получает через props функцию onChange, value и placeholder
 
 import React, { Component } from 'react';

@@ -1,7 +1,3 @@
-/**
- * Created by bookason on 21/06/17.
- */
-
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -30,17 +26,22 @@ class UserForm extends Component {
         if (response.status === 200) {
           return response.json()
         }
-        throw new Error("Not found");
+        console.log("HUJ1");
+        throw new Error("User not found");
       })
       .then((user) => {
+        console.log("HUJ2");
         this.props.showUser(user.id, user.name, user.avatar_url);
       })
       .catch((error) => {
+        console.log("HUJ3");
         this.props.userNotFound(error.message);
       });
   };
 
   render() {
+    console.log("Render UserForm", this.props);
+
     return (
       <div className="App">
         <form className="search" onSubmit={this.handleOnSubmit}>
@@ -55,6 +56,7 @@ class UserForm extends Component {
           userId={this.props.userId}
           userName={this.props.userName}
           userImg={this.props.userImg}
+          fetchError={this.props.fetchError}
         />
       </div>
     );
@@ -68,7 +70,7 @@ UserForm.propTypes = {
   userId: PropTypes.number,
   userName: PropTypes.string,
   userImg: PropTypes.string,
-  error: PropTypes.bool,
+  fetchError: PropTypes.bool,
 };
 
 UserForm.defaultProps = {
@@ -77,16 +79,18 @@ UserForm.defaultProps = {
   userId: null,
   userName: null,
   userImg: null,
-  error: false,
+  fetchError: false,
 };
 
 const mapStateToProps = (state) => {
+  console.log("Map state UserForm", state);
   return {
     value: state.value,
     touched: state.touched,
     userId: state.userId,
     userName: state.userName,
     userImg: state.userImg,
+    fetchError: state.fetchError,
   }
 };
 
@@ -96,7 +100,10 @@ const mapDispatchToProps = (dispatch) => {
     showUser: (userId, userName, userImg) => {
       return dispatch(fetchUserSuccess(userId, userName, userImg))
     },
-    userNotFound: (error) => dispatch(fetchUserFail(error)),
+    userNotFound: (error) => {
+      console.log("Dispatch not found", error);
+      return dispatch(fetchUserFail(error))
+    },
   };
 };
 

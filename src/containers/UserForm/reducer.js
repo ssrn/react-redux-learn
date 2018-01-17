@@ -1,7 +1,3 @@
-/**
- * Created by bookason on 20/06/17.
- */
-
 import * as ActionTypes from '../UserForm/constants';
 
 const initialState = {
@@ -30,6 +26,7 @@ export default (state = initialState, action) => {
         fetchError: false,
       };
     case ActionTypes.FETCH_USER_FAIL:
+      console.log("Reducer", state, action);
       return {
         ...state,
         userId: null,

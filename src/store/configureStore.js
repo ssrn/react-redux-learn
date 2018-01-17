@@ -1,7 +1,3 @@
-/**
- * Created by bookason on 19/06/17.
- */
-
 import { createStore } from 'redux';
 import rootReducer from './reducer';
 

@@ -1,7 +1,3 @@
-/**
- * Created by bookason on 20/06/17.
- */
-
 import * as ActionTypes from './constants';
 
 export const getInputValue = (value, touched) => {
@@ -19,9 +15,10 @@ export const fetchUserSuccess = (userId, userName, userImg) => {
 };
 
 export const fetchUserFail = (errorMsg) => {
+  console.log("Fetch fail action", errorMsg);
   return {
     type: ActionTypes.FETCH_USER_FAIL,
     payload: new Error(errorMsg),
-    error: true,
+    fetchError: true,
   }
 };

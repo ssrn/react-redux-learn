@@ -1,18 +1,14 @@
-/**
- * Created by bookason on 16/06/17.
- */
-
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 export default class UserInfo extends Component {
   renderNameWithImage() {
-    const { userName, userImg } = this.props;
+    const { userId, userName, userImg } = this.props;
 
     const userHasName = typeof userName === 'string' && userName.length;
     const userHasImg = typeof userImg === 'string' && userImg.length;
 
-    return (
+    return typeof userId === 'number' ? (
       <div className="user">
         <div className="user-name">
           {userHasName ? userName : "Username is empty"}
@@ -24,23 +20,24 @@ export default class UserInfo extends Component {
           }
         </div>
       </div>
-    );
+    ) : null;
   }
 
   renderErrorMessage() {
     return (
-      <div className="user">Not found</div>
+      <div className="error">User not found</div>
     );
   }
 
   render() {
-    const { userId, error } = this.props;
+    const { fetchError } = this.props;
 
-    return typeof userId === 'number' ? (
-      <div className="user-info">
-        {error ? this.renderErrorMessage() : this.renderNameWithImage()}
+    console.log("Render UserInfo", this.props);
+    return (
+      <div>
+        {fetchError ? this.renderErrorMessage() : this.renderNameWithImage()}
       </div>
-    ) : null;
+    )
   }
 }
 
@@ -48,12 +45,12 @@ UserInfo.propTypes = {
   userId: PropTypes.number,
   userName: PropTypes.string,
   userImg: PropTypes.string,
-  error: PropTypes.bool,
+  fetchError: PropTypes.bool,
 };
 
 UserInfo.defaultProps = {
   userId: null,
   userName: null,
   userImg: null,
-  error: false,
+  fetchError: false,
 };

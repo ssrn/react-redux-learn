@@ -1,7 +1,3 @@
-/**
- * Created by bookason on 16/06/17.
- */
-
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
