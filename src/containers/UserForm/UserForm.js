@@ -26,15 +26,12 @@ class UserForm extends Component {
         if (response.status === 200) {
           return response.json()
         }
-        console.log("HUJ1");
         throw new Error("User not found");
       })
       .then((user) => {
-        console.log("HUJ2");
         this.props.showUser(user.id, user.name, user.avatar_url);
       })
       .catch((error) => {
-        console.log("HUJ3");
         this.props.userNotFound(error.message);
       });
   };
